@@ -1,6 +1,7 @@
 <!DOCTYPE html>
+{% load static %}
 {% load staticfiles %}
-<html lang="en" class="no-js">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8" />
@@ -10,15 +11,22 @@
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
 	<meta name="author" content="Yo, ps quién mas? :v" />
-	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="shortcut icon" href="">
 	<!-- food icons -->
 	<link rel="stylesheet" href="{% static 'css/organicfoodicons.css' %}">
 	<!-- demo styles -->
 	<link rel="stylesheet" href="{% static 'css/demo.css' %}">
 	<!-- menu styles -->
 	<link rel="stylesheet" href="{% static 'css/component.css' %}">
+	<!-- bootstrap styles -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
 	<script src="{% static 'js/modernizr-custom.js' %}"></script>
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.js' %}"></script>
+	<script src="{% static 'js/classie.js' %}"></script>
+	<script src="{% static 'js/dummydata.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/scripts.js' %}"></script>
 </head>
 
 <body>
@@ -84,10 +92,7 @@
 		</div>
 	</div>
 	<!-- /view -->
-	<script src="{% static 'js/classie.js' %}"></script>
-	<script src="{% static 'js/dummydata.js' %}"></script>
-	<script src="{% static 'js/main.js' %}"></script>
-	<script src="{% static 'js/scripts.js' %}"></script>
+	
 	<script>
 	(function() {
 		var menuEl = document.getElementById('ml-menu'),
