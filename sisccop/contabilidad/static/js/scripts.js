@@ -30,7 +30,7 @@ $(document).ready(function(){
     	});
     });
 });
-//Script para guardar una nueva cuenta
+//Script para enviar nueva cuenta a BD
 $(document).ready(function(){
     $("#formGuardarCuenta").on('submit',function(e){
     	e.preventDefault();

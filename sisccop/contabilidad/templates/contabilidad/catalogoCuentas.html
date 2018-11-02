@@ -33,7 +33,8 @@
 							<td>{{ cuentasList.descripcion }}</td>
 							<td>{{ cuentasList.idTipoCuenta.tipoCuenta }}</td>
 							<td><button type="button" class="btn btn-outline-warning">Editar</button></td>
-							<td><button type="button" class="btn btn-outline-danger">Eliminar</button></td>
+							<td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#mdlEliminar">Elliminar</button></td>
+							<input type="hidden" value="{{ cuentasList.id }}" name="cuenta_{{ cuentasList.id }}">
 						</tr>
 						{% endfor %}
 					</tbody>
@@ -42,11 +43,12 @@
 		</form>
 		<tr>
 			<td><button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#mdlGuardar" data-whatever="">Nueva Cuenta</button></td>
-			<div class="modal fade" id="mdlGuardar" tabindex="-1" role="dialog" aria-labelledby="mdlGuardar" aria-hidden="true">
+			<!-- Modal Guardar Cuenta -->
+			<div class="modal fade mdlGuardar" id="mdlGuardar" tabindex="-1" role="dialog" aria-labelledby="mdlGuardar" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Nueva Cuenta</h5>
+							<h5 class="modal-title" id="mdlGuardar">Nueva Cuenta</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -80,11 +82,32 @@
 								<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCerrarMdlGuardar">Cerrar</button>
 								<input type="submit" id="btnGuardar" value="Guardar" class="btn btn-success">
 						</form>
-								<div class="alert alert-success" role="alert" id="respuestaGuardar"></div>
-							</div>
+						<div class="alert alert-success" role="alert" id="respuestaGuardar"></div>
 					</div>
 				</div>
 			</div>
+			<!-- Modal Guardar Cuenta -->
 		</tr>
 	</table>
 </div>
+<!-- Modal Eliminar Cuenta -->
+<div class="modal fade" id="mdlEliminar" tabindex="-1" role="dialog" aria-labelledby="mdlEliminar" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlEliminar">Eliminar Cuenta</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>¿Está seguro de querer eliminar la cuenta de la base de datos?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger"> Si </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Eliminar Cuenta -->
