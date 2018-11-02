@@ -46,12 +46,3 @@ $(document).ready(function(){
     	});
     });
 });
-
-//Script para eliminar cuenta en BD
-$(document).ready(function(){
-    $("#btnEliminarCuenta").on('click',function(e){
-        e.preventDefault();
-        var datos = $("#tdCuenta".text());
-        alert(datos);
-    });
-});

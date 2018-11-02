@@ -23,3 +23,10 @@ def guardarCuenta(request):
 			)
 		return HttpResponse('Cuenta guardada con éxito')
 	return HttpResponse('Error')
+
+def eliminarCuenta(request, idCuenta):
+	if request.method == 'POST':
+		instancia = Cuenta.objects.get(id=idCuenta)
+		instancia.delete()
+		return HttpResponse('Borrado');
+	return HttpResponse('Error');
