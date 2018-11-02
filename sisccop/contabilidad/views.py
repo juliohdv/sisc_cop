@@ -8,7 +8,7 @@ def index(request):
 
 def catalogoCuentas(request):
 	tipoCuentasList = TipoCuenta.objects.filter()
-	cuentasList = Cuenta.objects.filter()
+	cuentasList = Cuenta.objects.filter().order_by('id')
 	return render(request,'contabilidad/catalogoCuentas.html', {'tipoCuentasList':tipoCuentasList, 'cuentasList':cuentasList})
 
 def guardarCuenta(request):
@@ -30,3 +30,15 @@ def eliminarCuenta(request, idCuenta):
 		instancia.delete()
 		return HttpResponse('Borrado');
 	return HttpResponse('Error');
+
+def editarCuenta(request):
+	if request.method == 'POST':
+		i = request.POST['i']
+		instancia = Cuenta.objects.get(id=request.POST['idCuenta_'+str(i)])
+		instancia.codigo = request.POST['codigoCuenta_'+str(i)]	#id del Tag HTML
+		instancia.nombre = request.POST['nombreCuenta_'+str(i)]
+		instancia.descripcion = request.POST['descripcionCuenta_'+str(i)]
+		instancia.idTipoCuenta = TipoCuenta.objects.get(id=request.POST['tipoCuenta_'+str(i)])
+		instancia.save()
+		return HttpResponse('Cuenta Actualizada con Éxito')
+	return HttpResponse('Error')
