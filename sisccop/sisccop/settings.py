@@ -82,6 +82,7 @@ DATABASES = {
         'PASSWORD':'admin',
         'HOST':'127.0.0.1',
         'PORT':'5432',
+        #Cersiorarse de crear la BD con las credenciales acá especificadas
     }
 }
 
