@@ -1,9 +1,13 @@
 {% load staticfiles %}
+
 <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script src="{% static 'js/scripts.js' %}"></script>
+
 <div id="listaCuentas">
-	<span class="badge badge-primary">Catalogo de Cuentas</span>
+
+	<h2 style="color:#3750DC; border-left: solid 8px; padding-left: 50px;">Catálogo de Cuentas</h2>
 	<br><br>
+
 	<table>
 		<form action="" method="post" id="formBuscarCuenta">
 			<tr>
@@ -13,7 +17,7 @@
 			</tr>
 			<!-- Resultados de la BD -->
 			<tr>
-				<table class="table" id="tblCuentasBD">
+				<table class="table" id="tblCuentasBD" style="text-align: center;">
 					<thead class="thead-dark">
 						<tr>
 							<th scope="col">ID</th>
@@ -27,177 +31,201 @@
 					</thead>
 					<br>
 					<tbody>
-						{% for cuentasList in cuentasList %}
-						<tr>
-							<td>{{ cuentasList.id }}</td>
-							<td>{{ cuentasList.codigo }}</td>
-							<td>{{ cuentasList.nombre}}</td>
-							<td>{{ cuentasList.descripcion }}</td>
-							<td>{{ cuentasList.idTipoCuenta.tipoCuenta }}</td>
-							<td><button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#mdlEditar_{{ cuentasList.id }}">Editar</button></td>
-							<td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#mdlEliminar_{{cuentasList.id}}" id="btnEliminarCuenta_{{cuentasList.id}}">Eliminar</button></td>
-							<input type="hidden" value="{{ cuentasList.id }}" name="cuenta_{{ cuentasList.id }}" id="cuenta_{{ cuentasList.id }}">
-						</tr>
-						<!-- Modal Eliminar Cuenta -->
-						<div class="modal fade" id="mdlEliminar_{{cuentasList.id}}" tabindex="-1" role="dialog" aria-labelledby="mdlEliminar" aria-hidden="true">
-						  <div class="modal-dialog" role="document">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="mdlEliminar_{{cuentasList.id}}">Eliminar Cuenta</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						        <p>¿Está seguro de querer eliminar la cuenta con ID: {{cuentasList.id}} de la base de datos?</p>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-						        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnEliminarCuenta_{{cuentasList.id}}"> Si </button>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-						<!-- Modal Eliminar Cuenta -->
-						<script type="text/javascript">
-								$(document).ready(function(){
-								    $("#btnEliminarCuenta_{{cuentasList.id}}").on('click', function(e){
-								    	var a = "{{ cuentasList.id }}";
-								    	var cuentaID = $("#cuenta_"+a+"").serialize();
-								    	  	$.ajax({
-								    		url: "eliminarCuenta/"+a+"",
-								    		type: "POST",
-								    		data: "",
-								    		success: function(data){
-							    					$.ajax({
+						{% if cuentasList %}
+							{% for cuentasList in cuentasList %}
+								<tr>
+									<td>{{ cuentasList.id }}</td>
+									<td>{{ cuentasList.codigo }}</td>
+									<td>{{ cuentasList.nombre}}</td>
+									<td>{{ cuentasList.descripcion }}</td>
+									<td>{{ cuentasList.idTipoCuenta.tipoCuenta }}</td>
+									<td><button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#mdlEditar_{{ cuentasList.id }}">Editar</button></td>
+									<td><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#mdlEliminar_{{cuentasList.id}}" id="btnEliminarCuenta_{{cuentasList.id}}">Eliminar</button></td>
+									<input type="hidden" value="{{ cuentasList.id }}" name="cuenta_{{ cuentasList.id }}" id="cuenta_{{ cuentasList.id }}">
+								</tr>
+
+								<!-- Modal Eliminar Cuenta -->
+								<div class="modal fade" id="mdlEliminar_{{cuentasList.id}}" tabindex="-1" role="dialog" aria-labelledby="mdlEliminar" aria-hidden="true">
+								  	<div class="modal-dialog" role="document">
+								    	<div class="modal-content">
+								      		<div class="modal-header">
+								        		<h5 class="modal-title" id="mdlEliminar_{{cuentasList.id}}">Eliminar Cuenta</h5>
+								        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								        			<span aria-hidden="true">&times;</span>
+								        		</button>
+								     		</div>
+								      		<div class="modal-body">
+								        		<p>¿Está seguro de querer eliminar la cuenta con ID: {{cuentasList.id}} de la base de datos?</p>
+								      		</div>
+								      		<div class="modal-footer">
+								        		<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+								        		<button type="button" class="btn btn-danger" data-dismiss="modal" id="btnEliminarCuenta_{{cuentasList.id}}"> Si </button>
+								      		</div>
+								    	</div>
+								  	</div>
+								</div>
+								
+								<script type="text/javascript">
+									$(document).ready(function(){
+										$("#btnEliminarCuenta_{{cuentasList.id}}").on('click', function(e){
+										    var a = "{{ cuentasList.id }}";
+										    var cuentaID = $("#cuenta_"+a+"").serialize();
+										    $.ajax({
+										    	url: "eliminarCuenta/"+a+"",
+										    	type: "POST",
+										    	data: "",
+										    	success: function(data){
+									    			$.ajax({
+														url:"catalogoCuentas/",
+														type:"POST",
+														data:"",
+														success:function(response){
+															$("#content").html(response);
+														},
+													});
+										    	}
+										    });
+										});
+									});
+								</script>
+								<!-- Fin de Modal Eliminar Cuenta -->
+
+								<!-- Modal Editar Cuenta -->
+								<div class="modal fade mdlEditar_{{ cuentasList.id }}" id="mdlEditar_{{ cuentasList.id }}" tabindex="-1" role="dialog" aria-labelledby="mdlEditar_{{ cuentasList.id }}" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="mdlEditar_{{ cuentasList.id }}">Editar Cuenta</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<form id="formEditarCuenta_{{ cuentasList.id }}" method="post" action="" name="formEditarCuenta_{{ cuentasList.id }}">
+													<div class="form-group">
+														<label for="codigoCuenta" class="col-form-label">Código:</label>
+														<input type="text" value="{{cuentasList.codigo}}" class="form-control" id="codigoCuenta_{{ cuentasList.id }}" name="codigoCuenta_{{ cuentasList.id }}">
+													</div>
+													<div class="form-group">
+														<label for="tipoCuenta" class="col-form-label">Tipo de Cuenta:</label>
+														<select class="form-control" id="tipoCuenta_{{ cuentasList.id }}" name="tipoCuenta_{{ cuentasList.id }}">
+															{% for tipoCuentasList in tipoCuentasList %}
+																<option
+																	value="{{ tipoCuentasList.id }}"
+																	{% if tipoCuentasList == cuentasList.idTipoCuenta%} 
+																		selected="selected"
+																		{% endif %}>
+																	{{ tipoCuentasList.tipoCuenta }}
+																</option>
+															{% endfor %}
+														</select>
+													</div>
+													<div class="form-group">
+														<label for="nombreCuenta" class="col-form-label">Nombre:</label>
+														<input type="text" value="{{ cuentasList.nombre }}" class="form-control" id="nombreCuenta_{{ cuentasList.id }}" name="nombreCuenta_{{ cuentasList.id }}"> 
+													</div>
+													<div class="form-group">
+														<label for="descripcionCuenta" class="col-form-label">Descripción:</label>
+														<textarea class="form-control" placeholder="{{ cuentasList.descripcion }}" id="descripcionCuenta_{{ cuentasList.id }}" name="descripcionCuenta_{{ cuentasList.id }}"></textarea>
+													</div>
+											</div>
+											<div class="modal-footer">
+												<input type="hidden" name="sbmName" value="sbmEditarCuenta">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCerrarMdlEditar">Cerrar</button>												
+												<button id="btnActualizar_{{ cuentasList.id }}" class="btn btn-success" data-dismiss="modal">Actualizar</button>
+												<input type="hidden" value="{{cuentasList.id}}" name="idCuenta_{{cuentasList.id}}" id="idCuenta_{{cuentasList.id}}">
+												<div class="alert alert-success" role="alert" id="respuestaActualizar"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<script>
+									$(document).ready(function(){
+										$("#btnActualizar_{{ cuentasList.id }}").on('click',function(e){
+											e.preventDefault();
+											var forms = $("#codigoCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#nombreCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#descripcionCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#tipoCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#idCuenta_{{ cuentasList.id }}").serialize()+"&i="+"{{ cuentasList.id }}";
+											alert(forms);
+											$.ajax({
+												url: "editarCuenta/",
+												type: "POST",
+												data: forms,
+												success: function(data){
+												$("#respuestaActualizar").append(data);
+												$.ajax({
 													url:"catalogoCuentas/",
 													type:"POST",
 													data:"",
 													success:function(response){
 														$("#content").html(response);
-													},
-												});
-								    		}
-								    	});
-								    });
-								});
-						</script>
+														},
+													});
+												}
+											});
+										});
+									});
+								</script>
+								<!-- Fin de Modal Editar Cuenta -->
 
-							<!-- Modal Editar Cuenta -->
-							<div class="modal fade mdlEditar_{{ cuentasList.id }}" id="mdlEditar_{{ cuentasList.id }}" tabindex="-1" role="dialog" aria-labelledby="mdlEditar_{{ cuentasList.id }}" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="mdlEditar_{{ cuentasList.id }}">Editar Cuenta</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-											<div class="modal-body">
-											<form id="formEditarCuenta_{{ cuentasList.id }}" method="post" action="" name="formEditarCuenta_{{ cuentasList.id }}">
-												<div class="form-group">
-													<label for="codigoCuenta" class="col-form-label">Código:</label>
-													<input type="text" value="{{cuentasList.codigo}}" class="form-control" id="codigoCuenta_{{ cuentasList.id }}" name="codigoCuenta_{{ cuentasList.id }}">
-												</div>
-												<div class="form-group">
-													<label for="tipoCuenta" class="col-form-label">Tipo de Cuenta:</label>
-													<select class="form-control" id="tipoCuenta_{{ cuentasList.id }}" name="tipoCuenta_{{ cuentasList.id }}">
-														{% for tipoCuentasList in tipoCuentasList %}
-														<option value="{{ tipoCuentasList.id }}" selected="selected">{{ tipoCuentasList.tipoCuenta }}</option>
-														{% endfor %}
-													</select>
-												</div>
-												<div class="form-group">
-													<label for="nombreCuenta" class="col-form-label">Nombre:</label>
-													<input type="text" value="{{ cuentasList.nombre }}" class="form-control" id="nombreCuenta_{{ cuentasList.id }}" name="nombreCuenta_{{ cuentasList.id }}"> 
-												</div>
-												<div class="form-group">
-													<label for="descripcionCuenta" class="col-form-label">Descripción:</label>
-													<textarea class="form-control" placeholder="{{ cuentasList.descripcion }}" id="descripcionCuenta_{{ cuentasList.id }}" name="descripcionCuenta_{{ cuentasList.id }}"></textarea>
-												</div>
-											</div>
-											<div class="modal-footer">
-												 <input type="hidden" name="sbmName" value="sbmEditarCuenta">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCerrarMdlEditar">Cerrar</button>
-												
-												<button id="btnActualizar_{{ cuentasList.id }}" class="btn btn-success">Actualizar</button>
-												<input type="hidden" value="{{cuentasList.id}}" name="idCuenta_{{cuentasList.id}}" id="idCuenta_{{cuentasList.id}}">
-										</form>
-										<div class="alert alert-success" role="alert" id="respuestaActualizar"></div>
-									</div>
-								</div>
-							</div>
-							<script>
-								$(document).ready(function(){
-								    $("#btnActualizar_{{ cuentasList.id }}").on('click',function(e){
-								    	e.preventDefault();
-								    	var forms = $("#codigoCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#nombreCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#descripcionCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#tipoCuenta_{{ cuentasList.id }}").serialize()+"&"+$("#idCuenta_{{ cuentasList.id }}").serialize()+"&i="+"{{ cuentasList.id }}";
-								    	alert(forms);
-								    	$.ajax({
-								    		url: "editarCuenta/",
-								    		type: "POST",
-								    		data: forms,
-								    		success: function(data){
-								    			$("#respuestaActualizar").append(data);
-								    		}
-								    	});
-								    });
-								});
-							</script>
-							<!-- Modal Editar Cuenta -->
-
-						{% endfor %}
+							{% endfor %}
+						{% else %}
+							<tr><td></td></tr>
+							<tr><td colspan="7"><h4 style="color:#FF2134">No hay cuentas registradas.</h4></td></tr>
+							<tr><td></td></tr>
+						{% endif %}
 					</tbody>
 				</table>
 			</tr>
 		</form>
-		<tr>
-		
-			<td><button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#mdlGuardar" data-whatever="">Nueva Cuenta</button></td>
-			<!-- Modal Guardar Cuenta -->
-			<div class="modal fade mdlGuardar" id="mdlGuardar" tabindex="-1" role="dialog" aria-labelledby="mdlGuardar" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="mdlGuardar">Nueva Cuenta</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<form id="formGuardarCuenta" method="post" action="" name="formGuardarCuenta">
-							<div class="modal-body">
-							
-								<div class="form-group">
-									<label for="codigoCuenta" class="col-form-label">Código:</label>
-									<input type="text" class="form-control" id="codigoCuenta" name="codigoCuenta">
-								</div>
-								<div class="form-group">
-									<label for="tipoCuenta" class="col-form-label">Tipo de Cuenta:</label>
-									<select class="form-control" id="tipoCuenta" name="tipoCuenta">
-										{% for tipoCuentasList in tipoCuentasList %}
-										<option value="{{ tipoCuentasList.id }}">{{ tipoCuentasList.tipoCuenta }}</option>
-										{% endfor %}
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="nombreCuenta" class="col-form-label">Nombre:</label>
-									<input type="text" class="form-control" id="nombreCuenta" name="nombreCuenta"> 
-								</div>
-								<div class="form-group">
-									<label for="descripcionCuenta" class="col-form-label">Descripción:</label>
-									<textarea class="form-control" id="descripcionCuenta" name="descripcionCuenta"></textarea>
-								</div>
-							</div>
-							<div class="modal-footer">
-								 <input type="hidden" name="sbmName" value="sbmGuardarCuenta">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCerrarMdlGuardar">Cerrar</button>
-								<input type="submit" id="btnGuardar" value="Guardar" class="btn btn-success">
-						</form>
-						<div class="alert alert-success" role="alert" id="respuestaGuardar"></div>
+	
+		<td>
+			<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#mdlGuardar" data-whatever="">Nueva Cuenta</button>
+		</td>
+
+		<!-- Modal Guardar Cuenta -->
+		<div class="modal fade mdlGuardar" id="mdlGuardar" tabindex="-1" role="dialog" aria-labelledby="mdlGuardar" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="mdlGuardar">Nueva Cuenta</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
+					<form id="formGuardarCuenta" method="post" action="" name="formGuardarCuenta">
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="codigoCuenta" class="col-form-label">Código:</label>
+								<input type="text" class="form-control" id="codigoCuenta" name="codigoCuenta">
+							</div>
+							<div class="form-group">
+								<label for="tipoCuenta" class="col-form-label">Tipo de Cuenta:</label>
+								<select class="form-control" id="tipoCuenta" name="tipoCuenta">
+									{% for tipoCuentasList in tipoCuentasList %}
+										<option value="{{ tipoCuentasList.id }}">{{ tipoCuentasList.tipoCuenta }}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="nombreCuenta" class="col-form-label">Nombre:</label>
+								<input type="text" class="form-control" id="nombreCuenta" name="nombreCuenta"> 
+							</div>
+							<div class="form-group">
+								<label for="descripcionCuenta" class="col-form-label">Descripción:</label>
+								<textarea class="form-control" id="descripcionCuenta" name="descripcionCuenta"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<input type="hidden" name="sbmName" value="sbmGuardarCuenta">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCerrarMdlGuardar">Cerrar</button>
+							<input type="submit" id="btnGuardar" value="Guardar" class="btn btn-success">
+							<div class="alert alert-success" role="alert" id="respuestaGuardar"></div>
+					</form>
+						
 				</div>
 			</div>
-			<!-- Modal Guardar Cuenta -->
-		</tr>
+		</div>
+		<!-- Fin de Modal Guardar Cuenta -->
+
 	</table>
 </div>
