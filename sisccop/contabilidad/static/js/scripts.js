@@ -46,3 +46,34 @@ $(document).ready(function(){
     	});
     });
 });
+
+$(document).ready(function(){
+    $("#agregarTransaccion").on('click',function(e){
+        //alert("Hola");
+        e.preventDefault();
+        $.ajax({
+            url:"agregarTransaccion/",
+            type:"POST",
+            data:"",
+            success:function(response){
+                $("#content").html(response);
+            },
+        });
+    });
+});
+
+$(document).ready(function(){
+    $("#formDetalle").on('submit',function(e){
+        e.preventDefault();
+        var datos1 = $("#formDetalle").serialize();
+        alert(datos1);
+        $.ajax({
+            url: "agregarDetalle/",
+            type: "POST",
+            data: $("#formDetalle").serialize(),
+            success: function(data){
+                $("#respuestaDetalle").append(data);
+            }
+        });
+    });
+});

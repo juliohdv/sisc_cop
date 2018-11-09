@@ -5,7 +5,7 @@
 
 <div id="listaCuentas">
 
-	<h2 style="color:#3750DC; border-left: solid 8px; padding-left: 50px;">Catálogo de Cuentas</h2>
+	<h2 style="color:#FFC107; border-left: solid 8px; padding-left: 50px;">Catálogo de Cuentas</h2>
 	<br><br>
 
 	<table>
@@ -44,7 +44,7 @@
 									<input type="hidden" value="{{ cuentasList.id }}" name="cuenta_{{ cuentasList.id }}" id="cuenta_{{ cuentasList.id }}">
 								</tr>
 
-								<!-- Modal Eliminar Cuenta -->
+<!-- ---------------------------------- Modal Eliminar Cuenta -->
 								<div class="modal fade" id="mdlEliminar_{{cuentasList.id}}" tabindex="-1" role="dialog" aria-labelledby="mdlEliminar" aria-hidden="true">
 								  	<div class="modal-dialog" role="document">
 								    	<div class="modal-content">
@@ -88,9 +88,9 @@
 										});
 									});
 								</script>
-								<!-- Fin de Modal Eliminar Cuenta -->
+<!-- ---------------------------------- Fin de Modal Eliminar Cuenta -->
 
-								<!-- Modal Editar Cuenta -->
+<!-- ---------------------------------- Modal Editar Cuenta -->
 								<div class="modal fade mdlEditar_{{ cuentasList.id }}" id="mdlEditar_{{ cuentasList.id }}" tabindex="-1" role="dialog" aria-labelledby="mdlEditar_{{ cuentasList.id }}" aria-hidden="true">
 									<div class="modal-dialog" role="document">
 										<div class="modal-content">
@@ -165,7 +165,7 @@
 										});
 									});
 								</script>
-								<!-- Fin de Modal Editar Cuenta -->
+<!-- ---------------------------------- Fin de Modal Editar Cuenta -->
 
 							{% endfor %}
 						{% else %}
@@ -182,7 +182,7 @@
 			<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#mdlGuardar" data-whatever="">Nueva Cuenta</button>
 		</td>
 
-		<!-- Modal Guardar Cuenta -->
+<!-- ------------------- Modal Guardar Cuenta -->
 		<div class="modal fade mdlGuardar" id="mdlGuardar" tabindex="-1" role="dialog" aria-labelledby="mdlGuardar" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -220,12 +220,13 @@
 							<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnCerrarMdlGuardar">Cerrar</button>
 							<input type="submit" id="btnGuardar" value="Guardar" class="btn btn-success">
 							<div class="alert alert-success" role="alert" id="respuestaGuardar"></div>
+						</div>
 					</form>
 						
 				</div>
 			</div>
 		</div>
-		<!-- Fin de Modal Guardar Cuenta -->
+<!-- ------------ Fin de Modal Guardar Cuenta -->
 
 	</table>
 </div>

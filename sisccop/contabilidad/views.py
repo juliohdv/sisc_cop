@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import TipoCuenta, Cuenta
+from .models import TipoCuenta, Cuenta, Transaccion, DetalleTransaccion, Periodo
+from decimal import *
 
 # Create your views here.
 def index(request):
@@ -41,4 +42,30 @@ def editarCuenta(request):
 		instancia.idTipoCuenta = TipoCuenta.objects.get(id=request.POST['tipoCuenta_'+str(i)])
 		instancia.save()
 		return HttpResponse('Cuenta Actualizada con Éxito')
+	return HttpResponse('Error')
+
+def agregarTransaccion(request):
+
+	transaccion = Transaccion.objects.create()
+	cuentasList = Cuenta.objects.filter()
+	detalles = transaccion.detalle.all()
+	return render(request,'contabilidad/agregarTransaccion.html', {'transaccion':transaccion, 'cuentasList':cuentasList})
+
+def agregarDetalle(request):
+
+	if request.method == 'POST' and request.POST.get('sbmNam', False) == 'sbmDetalle':
+
+		detalle1 = DetalleTransaccion.objects.create(
+				fecha = request.POST['fechaD'],
+				cuenta = Cuenta.objects.get(id=request.POST['cuentaD']),
+				descripcion = request.POST['descripcionD'],
+				debe = Decimal(request.POST['debeD']),
+				haber = Decimal(request.POST['haberD'])
+		)
+		transaccion = Transaccion.objects.get(id=request.POST['transaccionD'])
+		transaccion.detalle.add(detalle1)
+		transaccion.save()
+		
+		return HttpResponse('Detalle Agregado a la Transacción')
+
 	return HttpResponse('Error')
