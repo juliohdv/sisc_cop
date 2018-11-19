@@ -41,8 +41,6 @@ class Transaccion(models.Model):
 	id = models.AutoField(primary_key=True)
 	descripcion = models.TextField(max_length=200)
 	detalle = models.ManyToManyField('DetalleTransaccion')
-	debe = models.FloatField(default=0)
-	haber = models.FloatField(default=0)
 	periodo = models.ForeignKey('Periodo', on_delete=models.CASCADE, null=True, blank=True)
 
 	def __str__(self):

@@ -63,17 +63,45 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $("#formDetalle").on('submit',function(e){
+    $("#btnAgregarDetalle").on('click',function(e){
         e.preventDefault();
-        var datos1 = $("#formDetalle").serialize();
-        alert(datos1);
-        $.ajax({
-            url: "agregarDetalle/",
-            type: "POST",
-            data: $("#formDetalle").serialize(),
-            success: function(data){
-                $("#respuestaDetalle").append(data);
-            }
-        });
+        var fecha = $("#fechaD").val();
+        var cuenta = $("#cuentaD").val();
+        var descripcion = $("#descripcionD").val();
+        var debe = $("#debeD").val();
+        var haber = $("#haberD").val();
+        var filaNueva = "<tr><td>" + fecha + "</td><td>" + cuenta + "</td><td>" + descripcion + "</td><td class='celdaDebe'>" + debe + "</td><td class='celdaHaber'>" + haber + "</td></tr>";
+        $("#tblDetalleTransaccion tbody").append(filaNueva);
+        $(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $(':checkbox, :radio').prop('checked', false);
+        
+        function getColumnTotal(selector) {
+            return Array.from( $(selector) ).reduce(sumReducer, 0);
+        } 
+        function sumReducer(total, cell) {
+            return total += parseInt(cell.innerHTML, 10);
+        }
+        function toMoney(number) {
+            return '$' + number.toFixed(2);
+        };   
+        function actualizarTotales(){
+            var celdaTotalDebe = $("#totalDebe");
+            var celdaTotalHaber = $("#totalHaber");
+            var totalDebe = getColumnTotal('.celdaDebe');
+            var totalHaber = getColumnTotal('.celdaHaber');
+            celdaTotalDebe.text(toMoney(totalDebe));
+            celdaTotalHaber.text(toMoney(totalHaber));
+        };
+        actualizarTotales();
+    });
+});
+
+$(document).ready(function(){
+    $("#btnLimparTablaDetalle").on('click',function(e){
+        e.preventDefault();
+        $("#tblDetalleTransaccion tbody").empty();
+        $("#tblDetalleTransaccion tfoot").empty();
+        $(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+        $(':checkbox, :radio').prop('checked', false);
     });
 });
